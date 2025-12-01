@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #050605;
+  --text-primary: #e0e4e2;
+  --text-secondary: #8f9693;
+  --accent-line: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --soul-gold: rgba(210, 190, 160, 0.9);
+  --soul-green: rgba(140, 160, 150, 0.8);
+  --soul-purple: rgba(180, 170, 190, 0.8);
+  --soul-blue: rgba(0, 240, 255, 0.8);
+  --soul-pink: rgba(255, 106, 194, 0.8);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Playfair Display', 'Noto Serif SC', 'Songti SC', serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* 液态玻璃质感 */
+@layer utilities {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-button {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(5px);
+    transition: all 0.5s ease;
+  }
+  
+  .glass-button:hover {
+    border-color: var(--soul-gold);
+    background: rgba(210, 190, 160, 0.05);
+  }
+
+  /* 坍缩动画 - 增强版本 */
+  .collapse-animation {
+    animation: collapseToParticle 1.2s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  }
+  
+  @keyframes collapseToParticle {
+    0% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+      filter: blur(0px) brightness(1);
+    }
+    25% {
+      transform: scale(0.95) rotate(1deg);
+      filter: blur(1px) brightness(1.1);
+    }
+    50% {
+      transform: scale(0.8) rotate(-2deg);
+      opacity: 0.8;
+      filter: blur(3px) brightness(1.2);
+    }
+    75% {
+      transform: scale(0.4) rotate(3deg);
+      opacity: 0.5;
+      filter: blur(8px) brightness(1.5);
+    }
+    90% {
+      transform: scale(0.1) rotate(-5deg);
+      opacity: 0.2;
+      filter: blur(15px) brightness(2);
+    }
+    100% {
+      transform: scale(0.05) rotate(0deg);
+      opacity: 0;
+      filter: blur(20px) brightness(3);
+    }
+  }
+
+  /* 粒子形成效果 */
+  .particle-formation {
+    animation: particleForm 0.6s ease-out forwards;
+  }
+  
+  @keyframes particleForm {
+    0% {
+      transform: scale(0.05);
+      opacity: 0;
+      filter: blur(20px) brightness(3);
+    }
+    50% {
+      transform: scale(0.3);
+      opacity: 0.7;
+      filter: blur(5px) brightness(1.5);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+      filter: blur(0px) brightness(1);
+    }
+  }
+
+  /* 打字机效果 */
+  .typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typewriter 3s steps(30) forwards;
+  }
+  
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  /* 声波动画 */
+  .wave-bar {
+    width: 1px;
+    background: var(--soul-gold);
+    transition: all 0.2s ease;
+    animation: wavePulse 2s infinite ease-in-out;
+  }
+  
+  .wave-bar.muted {
+    background: var(--text-secondary);
+  }
+  
+  @keyframes wavePulse {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+  }
+}
+
+/* 噪声纹理 */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.25;
+}
+
+/* Canvas 混合模式 */
+.canvas-screen {
+  mix-blend-mode: screen;
+}
+
+/* 滚动条样式 (液态玻璃) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  backdrop-filter: blur(5px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--soul-gold);
+}
