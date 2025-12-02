@@ -1,8 +1,8 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
 import { WAVE_CONFIG } from '@/utils/constants';
 
-export const useWaveAnimation = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
-  const animationRef = useRef<number>();
+export const useWaveAnimation = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+  const animationRef = useRef<number>(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const timeRef = useRef(0);
 

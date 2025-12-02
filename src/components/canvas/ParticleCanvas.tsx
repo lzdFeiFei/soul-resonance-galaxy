@@ -13,7 +13,7 @@ export const ParticleCanvas: React.FC<ParticleCanvasProps> = ({
   const { stage } = useAppStore();
   
   // 使用粒子系统 hook
-  const { particles, startAnimation, stopAnimation } = useParticleSystem(canvasRef);
+  const { startAnimation, stopAnimation } = useParticleSystem(canvasRef);
 
   // 根据应用状态控制动画
   useEffect(() => {

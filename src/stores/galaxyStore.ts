@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { Galaxy, CameraState, GalaxyParticle } from '@/types/galaxy';
+import type { Galaxy, CameraState, GalaxyParticle, AvoidanceZone } from '@/types/galaxy';
 import type { UserParticle, OtherGalaxy } from '@/types/app';
 import { GALAXY_CONFIG, OTHER_GALAXIES_DATA } from '@/utils/constants';
 
@@ -37,7 +37,7 @@ const calculateSpiralPosition = (index: number): { x: number; y: number } => {
 
 // 避让逻辑：检查位置是否在禁区内
 const isPositionValid = (position: { x: number; y: number }): boolean => {
-  return !GALAXY_CONFIG.avoidanceZones.some(zone => 
+  return !GALAXY_CONFIG.avoidanceZones.some((zone: AvoidanceZone) => 
     position.x >= zone.x && 
     position.x <= zone.x + zone.width &&
     position.y >= zone.y && 

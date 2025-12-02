@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { UserParticle } from '@/types/galaxy';
+import type { UserParticle } from '@/types/app';
 
 interface ParticleVisualizationProps {
   particle: UserParticle;
@@ -13,7 +13,7 @@ export const ParticleVisualization: React.FC<ParticleVisualizationProps> = ({
   height = 128 
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   const timeRef = useRef(0);
 
   useEffect(() => {

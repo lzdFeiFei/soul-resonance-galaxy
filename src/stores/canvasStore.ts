@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Particle } from '@/types/particles';
+import type { Particle } from '@/types/particle';
 
 interface CanvasState {
   // Canvas 尺寸
@@ -55,12 +55,11 @@ export const useCanvasStore = create<CanvasState>((set, get) => ({
   lastFrameTime: 0,
 
   // Actions
-  updateCanvasSize: (width, height) => set((state) => ({
+  updateCanvasSize: (width, height) => set(() => ({
     canvas: { width, height }
   })),
 
-  updateMousePosition: (x, y) => set((state) => {
-    const wasMoving = state.mouse.isMoving;
+  updateMousePosition: (x, y) => set(() => {
     const isMoving = x !== null && y !== null;
     
     return {

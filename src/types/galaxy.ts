@@ -27,14 +27,16 @@ export interface CameraState {
   isTransitioning: boolean;
 }
 
+export interface AvoidanceZone {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface GalaxyLayoutConfig {
   goldenAngle: number; // 137.508 degrees
   spiralSpacing: number;
-  avoidanceZones: Array<{
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }>;
+  avoidanceZones: AvoidanceZone[];
   minDistance: number; // 星系间最小距离
 }

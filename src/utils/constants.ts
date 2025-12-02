@@ -1,9 +1,18 @@
-import type { ParticleColor, ParticleSystemConfig, GalaxyLayoutConfig } from '@/types';
+import type { ParticleSystemConfig, GalaxyLayoutConfig } from '@/types';
 
 // 粒子系统配置
 export const PARTICLE_CONFIG: ParticleSystemConfig = {
   particleCount: 400,
-  mouseDistance: 180,
+  particleSize: 2,
+  particleSpeed: 1,
+  particleOpacity: 0.8,
+  particleColors: [
+    { r: 180, g: 200, b: 190 }, 
+    { r: 210, g: 190, b: 160 }, 
+    { r: 140, g: 160, b: 150 }, 
+    { r: 180, g: 170, b: 190 }, 
+    { r: 235, g: 240, b: 238 }  
+  ],
   colors: [
     { r: 180, g: 200, b: 190 }, 
     { r: 210, g: 190, b: 160 }, 
@@ -11,6 +20,14 @@ export const PARTICLE_CONFIG: ParticleSystemConfig = {
     { r: 180, g: 170, b: 190 }, 
     { r: 235, g: 240, b: 238 }  
   ],
+  particleConnectionDistance: 150,
+  particleConnectionOpacity: 0.2,
+  particleOrbitRadius: 100,
+  particleSpeedVariation: 0.5,
+  backgroundParticles: 50,
+  mouseInfluenceRadius: 150,
+  mouseForceMultiplier: 0.5,
+  mouseDistance: 180,
   flowField: {
     noise: {
       scale: 0.008,

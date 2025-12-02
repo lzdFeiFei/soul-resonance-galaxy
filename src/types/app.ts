@@ -1,7 +1,7 @@
 export type AppStage = 'input' | 'loading' | 'result' | 'galaxy_view';
 
 export interface AIResponse {
-  type: 'dialogue' | 'poem';
+  type: 'dialogue' | 'poem' | 'mixed';
   content: string | DialogueItem[];
   metadata: {
     emotion?: string;
@@ -28,7 +28,7 @@ export interface OtherGalaxy {
   id: string;
   content: string;
   position: { x: number; y: number };
-  particles: Particle[];
+  particles: UserParticle[];
 }
 
 export interface ParticleColor {

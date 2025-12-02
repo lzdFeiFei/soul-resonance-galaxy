@@ -1,12 +1,12 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { ParticlePhysics } from '@/utils/particlePhysics';
 import { useCanvasStore } from '@/stores';
-import type { Particle } from '@/types/particles';
+import type { Particle } from '@/types/particle';
 
-export const useParticleSystem = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
+export const useParticleSystem = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
   const [particles, setParticles] = useState<Particle[]>([]);
   const physicsRef = useRef<ParticlePhysics | null>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   const isInitializedRef = useRef(false);
   
   // 直接从 store 获取需要的状态，避免解构导致的重复渲染
@@ -54,7 +54,7 @@ export const useParticleSystem = (canvasRef: React.RefObject<HTMLCanvasElement>)
       ctx.save();
       
       // 设置粒子样式
-      ctx.globalAlpha = particle.alpha;
+      ctx.globalAlpha = particle.alpha || particle.opacity || 1;
       ctx.fillStyle = `rgb(${particle.color.r}, ${particle.color.g}, ${particle.color.b})`;
       
       // 绘制粒子 (小圆点)
@@ -166,6 +166,26 @@ export const useParticleSystem = (canvasRef: React.RefObject<HTMLCanvasElement>)
   }, [canvasRef, updateMousePosition, detectHoveredParticle, setHoveredParticle]);
 
   /**
+   * 启动动画
+   */
+  const startAnimation = useCallback(() => {
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    animate();
+  }, [animate]);
+
+  /**
+   * 停止动画
+   */
+  const stopAnimation = useCallback(() => {
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = 0;
+    }
+  }, []);
+
+  /**
    * 窗口大小变化处理
    */
   useEffect(() => {
@@ -183,26 +203,6 @@ export const useParticleSystem = (canvasRef: React.RefObject<HTMLCanvasElement>)
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [initializeParticles, startAnimation, stopAnimation]);
-
-  /**
-   * 启动动画
-   */
-  const startAnimation = useCallback(() => {
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-    animate();
-  }, [animate]);
-
-  /**
-   * 停止动画
-   */
-  const stopAnimation = useCallback(() => {
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-      animationRef.current = undefined;
-    }
-  }, []);
 
   /**
    * 组件挂载时初始化

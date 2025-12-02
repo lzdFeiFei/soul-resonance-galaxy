@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { ParticlePhysics } from '@/utils/particlePhysics';
-import type { Particle } from '@/types/particles';
+import type { Particle } from '@/types/particle';
 
 interface SimpleParticleCanvasProps {
   className?: string;
@@ -12,7 +12,7 @@ export const SimpleParticleCanvas: React.FC<SimpleParticleCanvasProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const physicsRef = useRef<ParticlePhysics | null>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   const mouseRef = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export const SimpleParticleCanvas: React.FC<SimpleParticleCanvasProps> = ({
       
       particlesRef.current.forEach(particle => {
         ctx.save();
-        ctx.globalAlpha = particle.alpha;
+        ctx.globalAlpha = particle.alpha || particle.opacity || 1;
         ctx.fillStyle = `rgb(${particle.color.r}, ${particle.color.g}, ${particle.color.b})`;
         
         // 绘制粒子

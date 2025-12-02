@@ -36,7 +36,7 @@ export const SYSTEM_PROMPTS: SystemPromptConfig = {
 };
 
 // 构建完整提示词
-export function buildPrompt(userInput: string, format: 'dialogue' | 'poem'): string {
+export function buildPrompt(userInput: string, format: 'dialogue' | 'poem' | 'mixed'): string {
   const formatPrompt = format === 'dialogue' ? SYSTEM_PROMPTS.dialogue : SYSTEM_PROMPTS.poem;
   
   return `${SYSTEM_PROMPTS.base}

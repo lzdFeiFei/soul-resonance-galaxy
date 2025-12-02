@@ -4,11 +4,12 @@ import { GlassButton } from '@/components/ui/GlassButton';
 import { EchoPanel } from '@/components/ui/EchoPanel';
 import { calculateSpiralPosition, generateRandomGalaxyPosition, smoothMove, isNearTarget } from '@/utils/galaxyMath';
 import { OTHER_GALAXIES_DATA } from '@/utils/constants';
-import type { Galaxy, UserParticle } from '@/types/galaxy';
+import type { Galaxy } from '@/types/galaxy';
+import type { UserParticle } from '@/types/app';
 
 export const GalaxyStage: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
   const cameraRef = useRef({ x: 0, y: 0 });
   const timeRef = useRef(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -29,7 +30,7 @@ export const GalaxyStage: React.FC = () => {
     if (otherGalaxies.length === 0) {
       const existingPositions = [userGalaxy.position];
       
-      OTHER_GALAXIES_DATA.forEach((data, index) => {
+      OTHER_GALAXIES_DATA.forEach((data) => {
         const position = generateRandomGalaxyPosition(existingPositions);
         existingPositions.push(position);
         
@@ -37,6 +38,7 @@ export const GalaxyStage: React.FC = () => {
           id: data.id,
           content: data.content,
           position,
+          particles: []
         });
       });
     }
@@ -256,8 +258,20 @@ export const GalaxyStage: React.FC = () => {
         if (isPointInParticle(worldCoords.x, worldCoords.y, finalX, finalY, currentSize + 3)) {
           console.log('粒子被点击:', particle.id, particle.text);
           setSelectedParticle(particle.id);
-          setEchoPanelParticle(particle);
-          setEchoPanelOpen(true);
+          
+          // 转换 GalaxyParticle 到 UserParticle
+          if (particle.text && particle.aiResponse) {
+            const userParticle: UserParticle = {
+              id: particle.id,
+              text: particle.text,
+              aiResponse: particle.aiResponse,
+              position: particle.position,
+              timestamp: particle.timestamp || Date.now(),
+              color: particle.color
+            };
+            setEchoPanelParticle(userParticle);
+            setEchoPanelOpen(true);
+          }
           return;
         }
       }

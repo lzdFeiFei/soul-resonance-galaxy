@@ -8,7 +8,6 @@ import { ResultStage } from '@/components/stages/ResultStage';
 import { GalaxyStage } from '@/components/stages/GalaxyStage';
 import { LLMSettings } from '@/components/settings/LLMSettings';
 import { debug } from '@/utils/debugging';
-import { testUtils } from '@/utils/testUtils';
 
 // 在开发环境下启用调试工具
 if (import.meta.env.DEV) {

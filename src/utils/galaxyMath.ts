@@ -1,3 +1,4 @@
+import type { AvoidanceZone } from '@/types/galaxy';
 import { GALAXY_CONFIG } from './constants';
 
 /**
@@ -50,7 +51,7 @@ export const isPositionValid = (
   position: { x: number; y: number },
   avoidanceZones = GALAXY_CONFIG.avoidanceZones
 ): boolean => {
-  return !avoidanceZones.some(zone => 
+  return !avoidanceZones.some((zone: AvoidanceZone) => 
     position.x >= zone.x && 
     position.x <= zone.x + zone.width &&
     position.y >= zone.y && 

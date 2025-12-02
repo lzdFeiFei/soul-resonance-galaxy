@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { GlassButton } from '@/components/ui/GlassButton';
 import { ParticleVisualization } from '@/components/ui/ParticleVisualization';
-import type { UserParticle } from '@/types/galaxy';
+import type { UserParticle } from '@/types/app';
 
 interface EchoPanelProps {
   isOpen: boolean;
@@ -54,7 +54,6 @@ export const EchoPanel: React.FC<EchoPanelProps> = ({ isOpen, particle, onClose 
     return null;
   }
 
-  const isAnimating = animationState === 'opening' || animationState === 'closing';
   const shouldShow = animationState === 'opening' || animationState === 'open';
 
   return (

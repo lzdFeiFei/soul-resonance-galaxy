@@ -4,7 +4,7 @@ import { GlassButton } from '@/components/ui/GlassButton';
 import { TypewriterText } from '@/components/ui/TypewriterText';
 import { ParticleVisualization } from '@/components/ui/ParticleVisualization';
 import type { DialogueItem } from '@/types/app';
-import type { UserParticle } from '@/types/galaxy';
+import type { UserParticle } from '@/types/app';
 
 // 开发环境测试函数
 const quickTestGalaxy = () => {

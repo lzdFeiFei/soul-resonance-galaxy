@@ -1,4 +1,4 @@
-import type { Particle, FlowField, ParticleColor } from '@/types/particles';
+import type { Particle, FlowField, ParticleColor } from '@/types/particle';
 import { PARTICLE_CONFIG } from './constants';
 
 /**
@@ -26,7 +26,7 @@ export class ParticlePhysics {
         const angle = this.calculateFlowAngle(x * resolution, y * resolution, this.time);
         vectors.push({
           angle,
-          magnitude: PARTICLE_CONFIG.flowField.noise.strength,
+          magnitude: PARTICLE_CONFIG.flowField?.noise?.strength || 0.5,
         });
       }
     }
@@ -44,8 +44,8 @@ export class ParticlePhysics {
    * 这是原版的核心算法，必须保持一致
    */
   private calculateFlowAngle(x: number, y: number, time: number): number {
-    const scale = PARTICLE_CONFIG.flowField.noise.scale;
-    const speed = PARTICLE_CONFIG.flowField.noise.speed;
+    const scale = PARTICLE_CONFIG.flowField?.noise?.scale || 0.008;
+    const speed = PARTICLE_CONFIG.flowField?.noise?.speed || 0.002;
     
     // 多层噪声叠加，创造复杂的漩涡效果
     const noise1 = Math.sin(x * scale + time * speed) * Math.cos(y * scale + time * speed);
@@ -62,7 +62,7 @@ export class ParticlePhysics {
    * 更新流场 (每帧调用)
    */
   updateFlowField(width: number, height: number): void {
-    this.time += PARTICLE_CONFIG.flowField.noise.speed;
+    this.time += PARTICLE_CONFIG.flowField?.noise?.speed || 0.002;
     this.flowField = this.createFlowField(width, height, this.flowField.resolution);
   }
 
@@ -106,8 +106,9 @@ export class ParticlePhysics {
       const dy = mouseY - particle.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      if (distance < PARTICLE_CONFIG.mouseDistance && distance > 0) {
-        const force = (PARTICLE_CONFIG.mouseDistance - distance) / PARTICLE_CONFIG.mouseDistance;
+      const mouseDistance = PARTICLE_CONFIG.mouseDistance || 180;
+      if (distance < mouseDistance && distance > 0) {
+        const force = (mouseDistance - distance) / mouseDistance;
         const angle = Math.atan2(dy, dx);
         
         // 鼠标吸引力
@@ -165,8 +166,9 @@ export class ParticlePhysics {
     for (let i = 0; i < PARTICLE_CONFIG.particleCount; i++) {
       const x = Math.random() * canvasWidth;
       const y = Math.random() * canvasHeight;
-      const colorIndex = Math.floor(Math.random() * PARTICLE_CONFIG.colors.length);
-      const color = PARTICLE_CONFIG.colors[colorIndex];
+      const colors = PARTICLE_CONFIG.colors || PARTICLE_CONFIG.particleColors;
+      const colorIndex = Math.floor(Math.random() * colors.length);
+      const color = colors[colorIndex];
       
       particles.push(
         ParticlePhysics.createParticle(x, y, `particle_${i}`, color)

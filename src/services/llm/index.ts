@@ -1,8 +1,7 @@
 import type { 
   LLMProvider as LLMProviderType, 
   LLMConfig, 
-  LLMMessage, 
-  LLMResponse,
+  LLMMessage,
   GenerationOptions 
 } from '@/types/llm';
 import type { AIResponse, DialogueItem } from '@/types/app';
@@ -205,7 +204,7 @@ export class LLMService {
       
       // 降级到本地模拟响应
       if (import.meta.env.VITE_DEBUG_MODE === 'true') {
-        return this.getFallbackResponse(userInput, format);
+        return this.getFallbackResponse(userInput, format as 'dialogue' | 'poem');
       }
       
       throw error;
