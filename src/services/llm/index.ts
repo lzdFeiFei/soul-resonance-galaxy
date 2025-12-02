@@ -93,7 +93,7 @@ function getConfigFromEnv(): LLMConfig {
 // 解析对话响应
 function parseDialogueResponse(content: string): DialogueItem[] {
   try {
-    // 尝试解析JSON格式
+    // 首先尝试直接解析JSON格式
     const parsed = JSON.parse(content);
     if (Array.isArray(parsed)) {
       return parsed.map(item => ({
@@ -102,6 +102,21 @@ function parseDialogueResponse(content: string): DialogueItem[] {
       }));
     }
   } catch {
+    // 如果直接解析失败，尝试提取markdown中的JSON代码块
+    const jsonBlockMatch = content.match(/```json\s*([\s\S]*?)\s*```/);
+    if (jsonBlockMatch) {
+      try {
+        const parsed = JSON.parse(jsonBlockMatch[1]);
+        if (Array.isArray(parsed)) {
+          return parsed.map(item => ({
+            speaker: item.speaker || 'ai',
+            text: item.text || item.content || ''
+          }));
+        }
+      } catch {
+        // JSON解析失败，继续下面的文本解析
+      }
+    }
     // 如果不是JSON，尝试解析文本格式
     const lines = content.split('\n').filter(line => line.trim());
     const dialogue: DialogueItem[] = [];
