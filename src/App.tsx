@@ -6,6 +6,7 @@ import { InputStage } from '@/components/stages/InputStage';
 import { LoadingStage } from '@/components/stages/LoadingStage';
 import { ResultStage } from '@/components/stages/ResultStage';
 import { GalaxyStage } from '@/components/stages/GalaxyStage';
+import { LLMSettings } from '@/components/settings/LLMSettings';
 import { debug } from '@/utils/debugging';
 import { testUtils } from '@/utils/testUtils';
 
@@ -31,6 +32,9 @@ function App() {
       
       {/* 噪声纹理层 */}
       <NoiseOverlay />
+      
+      {/* 设置面板 */}
+      <LLMSettings />
 
       {/* 主内容区 */}
       <div className="relative z-10 min-h-screen flex flex-col">
